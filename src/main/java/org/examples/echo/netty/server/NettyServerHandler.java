@@ -1,6 +1,9 @@
 package org.examples.echo.netty.server;
 
 import io.netty.channel.*;
+import io.netty.channel.group.ChannelGroup;
+import io.netty.channel.group.DefaultChannelGroup;
+import io.netty.util.concurrent.GlobalEventExecutor;
 
 import java.net.InetAddress;
 import java.util.Date;
@@ -10,12 +13,16 @@ import java.util.Date;
  */
 public class NettyServerHandler extends SimpleChannelInboundHandler<String> {
 
+    static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         // Send greeting for a new connection.
         ctx.write("Welcome to " + InetAddress.getLocalHost().getHostName() + "!\r\n");
         ctx.write("It is " + new Date() + " now.\r\n");
         ctx.flush();
+
+        channels.add(ctx.channel());
     }
 
     @Override
@@ -28,6 +35,9 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<String> {
         } else if ("bye".equals(request.toLowerCase())) {
             response = "Have a good day!\r\n";
             close = true;
+        } else if("hello".equals(request.toLowerCase())) {
+            sendToAll(ctx, "hello everybody!");
+            return;
         } else {
             response = "Did you say '" + request + "'?\r\n";
         }
@@ -38,6 +48,16 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<String> {
         // if the client has sent 'bye'.
         if (close) {
             future.addListener(ChannelFutureListener.CLOSE);
+        }
+    }
+
+    public void sendToAll(ChannelHandlerContext ctx, String msg) {
+        for (Channel c: channels) {
+            if (c != ctx.channel()) {
+                c.writeAndFlush("[" + ctx.channel().remoteAddress() + "] " + msg + '\n');
+            } else {
+                c.writeAndFlush("[you] " + msg + '\n');
+            }
         }
     }
 
