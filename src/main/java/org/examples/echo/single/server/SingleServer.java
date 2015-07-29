@@ -124,6 +124,10 @@ public class SingleServer implements Runnable {
 
             byte[] data = new byte[numRead];
             System.arraycopy(buffer.array(), 0, data, 0, numRead);
+
+            // protobuf example
+            // Protocol.Request request = Protocol.Request.parseFrom(data);
+            // return request;
             String result = new String(data, "UTF-8");
             log.debug("Got [{}] from [{}]", result, channel.getRemoteAddress());
             return result;

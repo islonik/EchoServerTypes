@@ -65,7 +65,4 @@ public class NettyClient {
             group.shutdownGracefully();
         }
     }
-
-
-
 }

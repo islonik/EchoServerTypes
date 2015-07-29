@@ -76,6 +76,9 @@ public class SingleMessageListener implements Runnable {
             byte[] data = new byte[numRead];
             System.arraycopy(buffer.array(), 0, data, 0, numRead);
 
+            // protobuf example
+            // Protocol.Response response = Protocol.Response.parseFrom(data);
+            // return response;
             String response = new String(data, "UTF-8");
             return response;
         } catch (IOException e) {
