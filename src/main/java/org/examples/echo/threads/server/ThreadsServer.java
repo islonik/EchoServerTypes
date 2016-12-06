@@ -21,10 +21,8 @@ public class ThreadsServer {
         System.out.println("Use next command: telnet localhost " + port);
     }
 
-    public void run()
-    {
-        try
-        {
+    public void run() {
+        try {
             ServerSocket server = new ServerSocket(port);
 
             String serverHello = "\n" +
@@ -33,26 +31,19 @@ public class ThreadsServer {
                     "Server port - " + server.getLocalPort() + "\n";
 
             log.info(serverHello);
-            System.out.println(serverHello);
 
-            while (true)
-            {
+            while (true) {
                 Socket client = server.accept();
-                if (client != null)
-                {
-                    String info = "New client from " + client.getInetAddress()
-                            + ":" + Integer.toString(client.getPort()) + " is connected";
+                if (client != null) {
+                    String info = String.format("New client from %s is connected", client.toString());
 
                     log.info(info);
-                    System.out.println(info);
 
                     ServerThread handler = new ServerThread(client);
                     handler.start();
                 }
             }
-        }
-        catch (IOException ioe)
-        {
+        } catch (IOException ioe) {
             log.error(ioe.getLocalizedMessage(), ioe);
             System.out.println(ioe.getMessage());
         }

@@ -8,13 +8,18 @@
     <artifactId>EchoServerTypes</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-	<description>Set of examples about sockets/servers/clients and e.t.c</description>
+    <description>Set of examples about sockets/servers/clients and e.t.c</description>
 
     <dependencies>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.6</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.1.2</version>
         </dependency>
 
         <dependency>
@@ -23,6 +28,24 @@
             <version>4.0.28.Final</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5</version>
+                <configuration>
+                    <showWarnings>true</showWarnings>
+                    <encoding>UTF-8</encoding>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <showDeprecation>true</showDeprecation>
+                    <maxmem>512m</maxmem>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 
 </project>

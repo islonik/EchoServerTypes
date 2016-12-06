@@ -12,11 +12,13 @@ import java.net.Socket;
 public class ServerThread extends Thread {
     private static final Logger log = LoggerFactory.getLogger(ServerThread.class);
 
+    private Socket socket;
     private BufferedReader inStream = null;
     private BufferedWriter outStream = null;
 
     public ServerThread(Socket socket) {
         try {
+            this.socket = socket;
             this.inStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             this.outStream = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
         } catch (IOException ioe) {
@@ -42,7 +44,7 @@ public class ServerThread extends Thread {
                     response = "Did you say '" + request + "'?\r\n";
                 }
 
-                System.out.println("resp = " + response);
+                System.out.println(String.format("resp %s = %s", socket.getPort(), response));
 
                 this.outStream.write(response);
                 this.outStream.flush();

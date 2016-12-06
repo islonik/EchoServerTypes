@@ -4,6 +4,7 @@ import java.io.IOException;
 
 /**
  * SyncThreadsClientApplication
+ *
  * @author Lipatov Nikita
  */
 public class SyncTCApplication {
