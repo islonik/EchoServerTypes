@@ -6,7 +6,7 @@ package org.examples.echo.threads.server;
 public class ThreadsApplication {
 
     // telnet localhost 8075
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         int port;
         if (args.length > 0) {
             port = Integer.parseInt(args[0]);
